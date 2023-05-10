@@ -1,6 +1,6 @@
 const router = require("express").Router()
 const User = require("../models/userModel")
-  
+
 
 const CryptoJs = require("crypto-js")
 
@@ -48,7 +48,7 @@ router.post("/login", async (req, res) => {
         )
 
         const { password, ...others } = user._doc
-        res.status(200).json(others, accessToken)
+        res.status(200).json(...others, accessToken)
     } catch (err) {
         res.status(500).json(err)
     }

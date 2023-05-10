@@ -1,4 +1,6 @@
 const jwt = require("jsonwebtoken")
+const User = require("../models/userModel")
+
 
 const verifyToken = (req, res, next) => {
     const authHeader = req.headers.token
@@ -17,7 +19,7 @@ next()
 }
 
 
-const veifyTokenAndAuthorization = (req, res, next)=>{
+const verifyTokenAndAuthorization = (req, res, next)=>{
     verifyToken (req, res, ()=>{
         if(req.user.id === req.params.id || req.user.isAdmin){
         next()
@@ -28,4 +30,18 @@ const veifyTokenAndAuthorization = (req, res, next)=>{
     })
 }
 
-module.exports = {verifyToken, veifyTokenAndAuthorization}
+const verifyTokenAndAdmin =  (req, res, next)=>{
+    verifyToken (req, res, ()=>{
+        if(req.user.isAdmin){
+        next()
+        }
+        else{res.status(403).json("You are not allowed to do that")
+
+        }
+    })
+}
+
+
+
+
+module.exports = {verifyToken, verifyTokenAndAuthorization, verifyTokenAndAdmin}
